@@ -11,7 +11,7 @@ k = 10
 # Load data from csv
 df = pd.read_csv("./data/train.csv")
 
-# Remove ten reviews with NaN text
+# Lowercase strings and remove ten reviews with NaN text
 df["text"] = df["review/text"].str.lower()
 df = df[df["text"].apply(lambda x: isinstance(x, str))]
 

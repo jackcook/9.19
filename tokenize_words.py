@@ -26,5 +26,4 @@ def tokenize(text):
         if negative:
             tokens[i] = tokens[i] + "_NOT"
 
-    print(tokens)
     return [w for w in tokens if not w in stop_words]

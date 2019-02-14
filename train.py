@@ -41,11 +41,12 @@ def train_naive_bayes(documents, classes):
                     else:
                         counts[word] = 1
 
+        alpha = 0.01
         denom = 0
 
         for word in vocabulary:
             if word in counts:
-                denom += counts[word] + 1
+                denom += counts[word] + alpha
             else:
                 counts[word] = 0
 
@@ -53,6 +54,6 @@ def train_naive_bayes(documents, classes):
 
         for word in vocabulary:
             freq = counts[word]
-            log_likelihood[c][word] = np.log((freq + 1) / denom)
+            log_likelihood[c][word] = np.log((freq + alpha) / denom)
 
     return log_prior, log_likelihood, vocabulary

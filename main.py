@@ -27,7 +27,7 @@ kf = KFold(n_splits=k, shuffle=True, random_state=42)
 
 for i, (train_idx, test_idx) in enumerate(kf.split(df)):
 	# Use indices to create train and test dataframes
-	print("Training epoch %d" % i)
+	print("Training fold %d" % i)
 	train_df = df.iloc[train_idx]
 	test_df = df.iloc[test_idx]
 
@@ -40,7 +40,7 @@ for i, (train_idx, test_idx) in enumerate(kf.split(df)):
 	log_prior, log_likelihood, vocabulary = train_naive_bayes(train_df, classes)
 
 	# Test model and calculate MSE
-	print("Testing epoch %d" % i)
+	print("Testing fold %d" % i)
 	test_df["predicted"] = test_batch(test_df, log_prior, log_likelihood, classes, vocabulary)
 	test_df["squared_error"] = (test_df["rating"] - test_df["predicted"]) * (test_df["rating"] - test_df["predicted"])
 	mse = test_df["squared_error"].mean()

@@ -19,7 +19,7 @@ def train_naive_bayes(documents, classes):
     big_doc = {}
     log_likelihood = {}
 
-    for c in classes:
+    for c in tqdm(classes):
         n_doc = len(documents)
         n_c = len(documents[documents["rating"] == c])
 
@@ -28,11 +28,11 @@ def train_naive_bayes(documents, classes):
 
         counts = {}
 
-        for i in tqdm(range(len(documents))):
-            rating = documents.iloc[i, :]["rating"]
+        for i, row in documents[documents["rating"] == c].iterrows():
+            rating = documents.loc[i, :]["rating"]
 
             if rating == c:
-                text = tokenize(documents.iloc[i, :]["text"])
+                text = tokenize(documents.loc[i, :]["text"])
                 big_doc[c].extend(text)
 
                 for word in text:
@@ -54,7 +54,5 @@ def train_naive_bayes(documents, classes):
         for word in vocabulary:
             freq = counts[word]
             log_likelihood[c][word] = np.log((freq + 1) / denom)
-
-        print("Done with class %f" % c)
 
     return log_prior, log_likelihood, vocabulary

@@ -1,4 +1,16 @@
+from pandas import Series
 from tokenize_words import tokenize
+from tqdm import tqdm
+
+def test_batch(documents, log_prior, log_likelihood, classes, vocabulary):
+    predicted = []
+
+    for i in tqdm(range(len(documents))):
+        d = documents.iloc[i]["text"]
+        c_hat = test_naive_bayes(d, log_prior, log_likelihood, classes, vocabulary)
+        predicted.append(c_hat)
+
+    return predicted
 
 def test_naive_bayes(document, log_prior, log_likelihood, classes, vocabulary):
     sum = {}

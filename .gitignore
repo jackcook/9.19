@@ -1,0 +1,9 @@
+# Project
+data/
+
+# Python
+__pycache__
+.pytest_cache
+
+# macOS
+.DS_Store

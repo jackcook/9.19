@@ -43,6 +43,7 @@ def test_naive_bayes(document, log_prior, log_likelihood, classes, vocabulary):
         The predicted class of the document.
     """
 
+    # Calculate this document's probability of being each class
     document = tok.tokenize(document)
     sum = {}
 
@@ -53,6 +54,7 @@ def test_naive_bayes(document, log_prior, log_likelihood, classes, vocabulary):
             if word in vocabulary:
                 sum[c] = sum[c] + log_likelihood[c][word]
 
+    # Find the class with the highest probability
     best_class = None
     best_sum = -float("inf")
 

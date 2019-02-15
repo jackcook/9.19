@@ -12,8 +12,7 @@ df["text"] = df["review/text"].str.lower()
 df = df[df["text"].apply(lambda x: isinstance(x, str))]
 
 # Remove one review with 0 rating
-df["rating"] = df["review/overall"]
-df = df[df["rating"] > 0]
+df = df[df["review/overall"] > 0]
 
 # Prepare test dataframe
 test_df = pd.read_csv("./data/test.csv")

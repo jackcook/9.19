@@ -2,6 +2,7 @@ from nltk.tokenize.toktok import ToktokTokenizer
 import numpy as np
 from tqdm import tqdm
 
+alpha = 0.001
 tok = ToktokTokenizer()
 
 def load_vocabulary(documents):
@@ -37,48 +38,43 @@ def train_naive_bayes(documents, classes):
         vocabulary: The vocabulary set of these training documents.
     """
 
+    # Load the vocabulary from training data
     vocabulary = load_vocabulary(documents)
     print("Loaded vocabulary, %d tokens" % len(vocabulary))
 
     log_prior = {}
-    big_doc = {}
-    log_likelihood = {}
+    big_doc = {c: [] for c in classes}
+    log_likelihood = {c: {} for c in classes}
+
+    # Total number of training documents
+    n_doc = len(documents)
 
     for c in tqdm(classes):
-        n_doc = len(documents)
-        n_c = len(documents[documents["rating"] == c])
+        # All of the training documents belonging to this class
+        docs_c = documents[documents["rating"] == c]
+        n_c = len(docs_c)
 
         log_prior[c] = np.log(n_c / n_doc)
-        big_doc[c] = []
 
-        counts = {}
+        # Find the frequencies of all tokens in the training dataset
+        counts = {word: 0 for word in vocabulary}
 
-        for i, row in documents[documents["rating"] == c].iterrows():
-            rating = documents.loc[i, :]["rating"]
+        for i, row in docs_c.iterrows():
+            text = tok.tokenize(docs_c.loc[i, :]["text"])
+            big_doc[c].extend(text)
 
-            if rating == c:
-                text = tok.tokenize(documents.loc[i, :]["text"])
-                big_doc[c].extend(text)
+            for word in text:
+                counts[word] += 1
 
-                for word in text:
-                    if word in counts:
-                        counts[word] += 1
-                    else:
-                        counts[word] = 1
-
-        alpha = 0.001
-        denom = 0
+        # Calculate normalizing constant
+        sum = 0
 
         for word in vocabulary:
-            if word in counts:
-                denom += counts[word] + alpha
-            else:
-                counts[word] = 0
+            sum += counts[word] + alpha
 
-        log_likelihood[c] = {}
-
+        # Calculate likelihood probability of each word
         for word in vocabulary:
             freq = counts[word]
-            log_likelihood[c][word] = np.log((freq + alpha) / denom)
+            log_likelihood[c][word] = np.log((freq + alpha) / sum)
 
     return log_prior, log_likelihood, vocabulary

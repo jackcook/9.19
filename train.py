@@ -57,7 +57,7 @@ def train_naive_bayes(documents, classes):
             rating = documents.loc[i, :]["rating"]
 
             if rating == c:
-                text = tokenize(documents.loc[i, :]["text"])
+                text = tok.tokenize(documents.loc[i, :]["text"])
                 big_doc[c].extend(text)
 
                 for word in text:

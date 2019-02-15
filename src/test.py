@@ -1,5 +1,4 @@
 from nltk.tokenize.toktok import ToktokTokenizer
-from pandas import Series
 from tqdm import tqdm
 
 tok = ToktokTokenizer()

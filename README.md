@@ -1,6 +1,6 @@
 # naive-bayes
 
-A simple Naive Bayes text classifier. Currently set up to work with the [Kaggle beer ratings](http://kaggle.com/c/beer-ratings) dataset, but can be easily modified to work with other simple text-based datasets.
+A simple naive Bayes text classifier. Currently set up to work with the [Kaggle beer ratings](http://kaggle.com/c/beer-ratings) dataset, but can be easily modified to work with other simple text-based datasets.
 
 ## Setup
 
